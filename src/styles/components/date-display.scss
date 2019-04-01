@@ -1,0 +1,137 @@
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins.scss';
+
+.date-display {
+    @include respond(tab-port) {
+        padding-top: 3rem;
+    }
+
+    &__month {
+        display: flex;
+        justify-content: space-evenly;
+        width: 80%;
+        margin: 0 auto;
+        position: relative;
+
+        @include respond(tab-port) {
+            padding-bottom: 4rem;
+        }
+
+        &::after {
+            content: 'Month';
+            height: 3rem;
+            width: 100%;
+            position: absolute;
+            top: -3.5rem;
+            text-align: center;
+            letter-spacing: 1rem;
+            color: $color-grey-dark-3;
+
+            @include labelFont;
+
+            @include respond(tab-port) {
+                top: -5.5rem;
+            }
+        }
+    }
+
+    &__month-number {
+        cursor: pointer;
+        position: relative;
+        width: 2rem;
+
+        &::after {
+            content: '';
+            background-image: $gradient-dark;
+            border-radius: 2rem;
+            position: absolute;
+            left: -20%;
+            top: -10%;
+            width: 3rem;
+            height: 3rem;
+            opacity: 0;
+            transform: scale(.5);
+            transition: all .2s;
+            backface-visibility: hidden;
+            z-index: -1;
+        }
+
+        &.clicked {
+            color: $color-white;
+        }
+
+        &.clicked::after {
+            opacity: 1;
+            transform: scale(1);
+            transition: all .2s;
+        }
+
+    }
+
+    &__date {
+        border: 1px solid $color-grey-dark-3;
+        width: 80%;
+        margin: 5.5rem auto;
+        padding: 2rem;
+        border-radius: 3px;
+        position: relative;
+
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+        grid-gap: 2rem;
+
+        &::after {
+            content: 'Date';
+            // border: 1px solid blue;
+            height: 3rem;
+            width: 100%;
+            position: absolute;
+            top: -3.5rem;
+            text-align: center;
+            letter-spacing: 1rem;
+            color: $color-grey-dark-3;
+            transform: translateX(-2rem);
+
+            @include labelFont;
+
+            @include respond(tab-port) {
+                top: -5.5rem;
+            }
+        }
+    }   
+
+    &__date-number {
+        width: 2rem;
+        margin: .5rem 1.18rem;
+        cursor: pointer;
+        position: relative;
+        
+        &::after {
+            content: '';
+            // border: 1px solid blue;
+            background-image: $gradient-dark;
+            border-radius: 2rem;
+            position: absolute;
+            left: -20%;
+            top: -10%;
+            width: 3rem;
+            height: 3rem;
+            opacity: 0;
+            transform: scale(.5);
+            transition: all .2s;
+            backface-visibility: hidden;
+            z-index: -1;
+        }
+
+        &.clicked {
+            color: $color-white;
+        }
+
+        &.clicked::after {
+            opacity: 1;
+            transform: scale(1);
+            transition: all .2s;
+        }
+
+    }
+}

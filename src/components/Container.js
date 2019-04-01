@@ -3,6 +3,7 @@ import '../styles/components/container.scss'
 import Header from './Header'
 import Body from './Body'
 import Footer from './Footer'
+import BirthdayForm from './birthday-form/BirthdayForm';
 
 class Container extends Component {
     constructor(props) {
@@ -14,7 +15,9 @@ class Container extends Component {
             <div className='container'>
                 <Header />
                 <Body />
+                <BirthdayForm />
                 <Footer />
+
             </div>
         )
     }
