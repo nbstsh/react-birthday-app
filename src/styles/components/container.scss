@@ -20,7 +20,7 @@
         margin: 0;
     }
 
-    &__top {
+    & > .header {
         padding: 2rem;
         display: flex;
         justify-content: space-between;
@@ -32,7 +32,7 @@
         }
     }
 
-    &__middle {
+    & .body {
         padding: 3rem 5rem;
         margin-bottom: auto;
         display: grid;
@@ -41,7 +41,7 @@
         grid-gap: 2rem;
     }
 
-    &__bottom {
+    & .footer {
         background-color: $color-white;
         padding: 2rem 0;
         border-top: 1px solid $color-grey-light-3;

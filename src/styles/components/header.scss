@@ -1,0 +1,9 @@
+
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins.scss';
+
+.header {
+    &__month {
+        font-size: 2rem;
+    }
+}

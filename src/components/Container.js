@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import '../styles/components/container.scss'
+import Header from './Header'
+import Body from './Body'
+import Footer from './Footer'
 
 class Container extends Component {
     constructor(props) {
@@ -9,9 +12,9 @@ class Container extends Component {
     render() {
         return (
             <div className='container'>
-                <div className='container__top header'>header</div>
-                <div className='container__middle content'>content</div>
-                <div className='container__bottom footer'>footer</div>
+                <Header />
+                <Body />
+                <Footer />
             </div>
         )
     }
