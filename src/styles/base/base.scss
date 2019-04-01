@@ -1,0 +1,43 @@
+@import '../abstracts/variables.scss';
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    // This defines what 1rem is (if default font-size = 16px, 1rem = 10px)
+    font-size: 62.5%;
+}
+
+body {
+    box-sizing: border-box;
+    background: $gradient;
+    color: $color-grey-dark-1;
+    min-height: 100vh;
+}
+
+ul {
+    list-style: none;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+}
+
+input {
+    outline: none;
+    letter-spacing: .5rem;
+    font-size: inherit;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    outline: none;
+    cursor: pointer;
+}
