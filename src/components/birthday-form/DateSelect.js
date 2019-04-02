@@ -5,6 +5,12 @@ class DateSelect extends Component {
         super(props)
         this.state = {}
     }
+    handleMonthChange = (e) => {
+        this.props.setMonthNum(e.target.value)
+    }
+    handleDateChange = (e) => {
+        this.props.setDateNum(e.target.value)
+    }
     render() {
         let monthOptions = []
         for(let i = 1; i <= 12; i++) {
@@ -18,14 +24,14 @@ class DateSelect extends Component {
         return (
             <div className="birthday-form__group birthday-form__group--date">
                 <div className="birthday-form__select-wrapper">
-                    <span className="birthday-form__selected-number" id="selected-month-text">1月</span>
-                    <select name="month" id="birthday-form-month" className="birthday-form__month">
+                    <span className="birthday-form__selected-number">{this.props.monthNum}月</span>
+                    <select name="month" className="birthday-form__month" onChange={this.handleMonthChange}>
                         {monthOptions}
                     </select>
                 </div>
                 <div className="birthday-form__select-wrapper">
-                    <span className="birthday-form__selected-number" id="selected-date-text">1日</span>
-                    <select name="date" id="birthday-form-date" className="birthday-form__date" placeholder="Date">
+                    <span className="birthday-form__selected-number">{this.props.dateNum}日</span>
+                    <select name="date" className="birthday-form__date" placeholder="Date" onChange={this.handleDateChange}>
                         {dayOptions}
                     </select>
                 </div>
