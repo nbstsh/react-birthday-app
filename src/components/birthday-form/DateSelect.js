@@ -6,10 +6,10 @@ class DateSelect extends Component {
         this.state = {}
     }
     handleMonthChange = (e) => {
-        this.props.setMonthNum(e.target.value)
+        this.props.setMonthNum(Number(e.target.value))
     }
     handleDateChange = (e) => {
-        this.props.setDateNum(e.target.value)
+        this.props.setDateNum(Number(e.target.value))
     }
     render() {
         let monthOptions = []

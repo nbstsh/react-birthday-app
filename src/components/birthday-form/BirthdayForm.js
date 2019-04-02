@@ -30,7 +30,11 @@ class BirthdayForm extends Component {
                         dateNum={dateNum}
                         setMonthNum={this.setMonthNum}
                         setDateNum={this.setDateNum}/>
-                    <DateDisplay />
+                    <DateDisplay 
+                        monthNum={monthNum} 
+                        dateNum={dateNum}
+                        setMonthNum={this.setMonthNum}
+                        setDateNum={this.setDateNum}/>
                     <Button text='submit'/>
                 </form>
             </div>
