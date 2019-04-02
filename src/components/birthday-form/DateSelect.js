@@ -8,12 +8,12 @@ class DateSelect extends Component {
     render() {
         let monthOptions = []
         for(let i = 1; i <= 12; i++) {
-            monthOptions.push(<option value={i}>{i}月</option>)
+            monthOptions.push(<option key={i} value={i}>{i}月</option>)
         }
 
         let dayOptions = []
         for(let i = 1; i <= 31; i++) {
-            dayOptions.push(<option value={i}>{i}日</option>)
+            dayOptions.push(<option key={i} value={i}>{i}日</option>)
         }
         return (
             <div className="birthday-form__group birthday-form__group--date">

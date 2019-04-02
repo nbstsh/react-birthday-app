@@ -1,0 +1,36 @@
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins.scss';
+@import '../base/animation.scss';
+
+.modal {
+    &__content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background-color: $color-white;
+        transform: translate(-50%, -50%);
+        min-width: 60rem;
+        outline: none;
+        border-radius: 5px;
+        box-shadow: $shadow;
+        transition: transform .2s;
+        animation: centerScaleIn .2s;
+
+        &.close {
+            animation: centerScaleOut .2s;
+        }
+    }
+
+    &__overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba($color-black, .3);
+
+        &.close {
+            animation: fadeOut .2s;
+        }
+    }
+}

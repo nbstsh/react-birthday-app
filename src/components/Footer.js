@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import '../styles/components/header.scss'
 import Button from './common/Button'
+import BirthdayFormModalControll from './BirthdayFormModal';
+
 
 class Footer extends Component {
     constructor(props) {
@@ -10,9 +12,7 @@ class Footer extends Component {
     render() {
         return (
             <div className='footer'>
-                <Button 
-                    // handleClick={}
-                    text='New Birthday!' />
+                <BirthdayFormModalControll />
             </div>
         )
     }
