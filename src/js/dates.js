@@ -3,23 +3,25 @@ let dates = []
 
 const getDates = () => dates
 
-
-const initDates = (sortedCharacters, isSingle) => {
+// if needSeparateEachCharacter is true, each date object should countain one character object as property
+// if not, each date object should contain characters array instead
+const initDates = (sortedCharacters, needSeparateEachCharacter) => {
     dates = []
     let dateObj = null
 
     sortedCharacters.forEach((character) => {
-        const birthday = character.birthday.split('/')
-        const needsToPushSameCharacter = dateObj && !isSingle
+        const [month, date] = character.birthday.split('/')
+        const needsToPushSameCharacter = dateObj && !needSeparateEachCharacter
 
         if (needsToPushSameCharacter) {
             dateObj.characters.push(character)
         } else {
-            dateObj = {
-                month: birthday[0],
-                date: birthday[1],
-                characters: [character]
-            }
+            dateObj = { month, date }
+
+            needSeparateEachCharacter ? 
+                dateObj.character = character :
+                dateObj.characters = [character]
+
             dates.push(dateObj)
         }
     })
@@ -37,6 +39,8 @@ const getFilteredDates = ({ month, date }) => {
     if (date) dates = dates.filter((dateObj) => dateObj.date === date)
     return dates
 }
+
+
 
 
 export { generateDates, getFilteredDates, initDates, getDates }
