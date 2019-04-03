@@ -25,13 +25,13 @@ class DateSelect extends Component {
             <div className="birthday-form__group birthday-form__group--date">
                 <div className="birthday-form__select-wrapper">
                     <span className="birthday-form__selected-number">{this.props.monthNum}月</span>
-                    <select name="month" className="birthday-form__month" onChange={this.handleMonthChange}>
+                    <select name="month" className="birthday-form__month" onChange={this.handleMonthChange} value={this.props.monthNum}>
                         {monthOptions}
                     </select>
                 </div>
                 <div className="birthday-form__select-wrapper">
                     <span className="birthday-form__selected-number">{this.props.dateNum}日</span>
-                    <select name="date" className="birthday-form__date" placeholder="Date" onChange={this.handleDateChange}>
+                    <select name="date" className="birthday-form__date" placeholder="Date" onChange={this.handleDateChange} value={this.props.dateNum}>
                         {dayOptions}
                     </select>
                 </div>
