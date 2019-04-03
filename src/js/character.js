@@ -28,7 +28,7 @@ const createCharacter = ({ birthday, name, memos = [] }) => {
     const id = uuidv4()
     characters.push({
         id,
-        birthday,
+        birthday, // [format] 'month/date'
         name,
         memos,
         createdAt: moment().valueOf(),
