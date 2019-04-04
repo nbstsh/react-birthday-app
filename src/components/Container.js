@@ -9,25 +9,29 @@ class Container extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            people: []
+            people: [],
+            headerTitle: 'All'
         }
     }
     async componentDidMount() {
-        this.initPeople()
-
-        manager.on(manager.UPDATE_IDB_EVENT, this.initPeople)
-    }
-    initPeople = async () => {
         const people = await manager.loadPeople()
         this.setState({ people })
 
-        // TEST
-        console.log('init people', { people })
+        manager.on(manager.UPDATE_IDB_EVENT, this.initPeople)
+        manager.on(manager.UPDATE_FILTERS_EVENT, this.initPeopleAndHeaderTitle)
+    }
+    initPeople = ({ people }) => {
+        console.log('init People', people)
+        this.setState({ people })
+    }
+    initPeopleAndHeaderTitle = ({ people, filter }) => {
+        const headerTitle = filter.month || 'All'
+        this.setState({ people, headerTitle })
     }
     render() {
         return (
             <div className='container'>
-                <Header />
+                <Header title={this.state.headerTitle}/>
                 <Body people={this.state.people} />
                 <Footer />
             </div>

@@ -2,6 +2,7 @@ import uuidv4 from 'uuidv4'
 import moment from 'moment'
 import createIdbKeyval from './idb-keyval'
 import EventEmitter from 'events'
+import { setFilters, getFilters } from './filters'
 const idbKeyval = createIdbKeyval('people')
 
 
@@ -11,6 +12,7 @@ class PersonManager extends EventEmitter {
         super()
         this.people = []
         this.UPDATE_IDB_EVENT = 'updateIdb'
+        this.UPDATE_FILTERS_EVENT = 'updateFilters'
     }
     getPeople() {
         return this.people
@@ -28,7 +30,7 @@ class PersonManager extends EventEmitter {
     async resetPeople() {
         this.people = []
         await idbKeyval.clear()
-        this.emit(this.UPDATE_IDB_EVENT, { people: this.people })
+        this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
     async createPerson({ month, date, name, memos = [] }) {
         const id = uuidv4()
@@ -45,7 +47,7 @@ class PersonManager extends EventEmitter {
         this.people.push(person)
         await await idbKeyval.set(id, person)
 
-        this.emit(this.UPDATE_IDB_EVENT, { people: this.people })
+        this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
 
         return person
     }
@@ -64,7 +66,7 @@ class PersonManager extends EventEmitter {
         
         await idbKeyval.set(person.id, person)
 
-        this.emit(this.UPDATE_IDB_EVENT, { people: this.people })
+        this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
     async removePerson(id) {
         const index = this.people.findIndex((person) => person.id === id)
@@ -73,7 +75,7 @@ class PersonManager extends EventEmitter {
             const personArray = this.people.splice(index, 1)
             await idbKeyval.delete(personArray[0].id)
 
-            this.emit(this.UPDATE_IDB_EVENT, { people: this.people })
+            this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
         }
     }
     sortByDate() {
@@ -81,16 +83,35 @@ class PersonManager extends EventEmitter {
             if (a.month > b.month) return 1
             if (a.month < b.month) return -1 
     
-            // same month 
+            // if it's same month, sort by date
             if (a.date > b.date) return 1
             if (a.date < b.date) return -1
     
             return 0
         })
     }
-    getSortedPeople(){
+    getSortedPeople() {
         this.sortByDate()
         return this.people
+    }
+    getFilteredPeople() {
+        const filter = getFilters()
+        this.sortByDate()
+        return this.people.filter(({ month, date, name }) => {
+            const isValidMonth = !filter.month || month === filter.month
+            const isValidDate = !filter.date || date === filter.date 
+            const isValidName = name.toLowerCase().includes(filter.name)
+            
+            return isValidMonth && isValidDate && isValidName
+        })
+    }
+    setFilters(filters) {
+        setFilters(filters)
+
+        this.emit(this.UPDATE_FILTERS_EVENT, { 
+            people: this.getFilteredPeople(),
+            filter: getFilters()
+        })
     }
 }
 

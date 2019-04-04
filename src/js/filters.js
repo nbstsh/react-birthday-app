@@ -1,15 +1,14 @@
 const filters = {
-    month: '1',
+    month: '',
     date: '',
-    name: ''
+    name: '' 
 }
 
-
 const setFilters = ({ month, date, name }) => {
-    const isValidMonth = typeof month === 'string' && Number(month) >= 1 && Number(month) <= 12
-    const isValideDate = typeof date === 'string' && Number(date) >= 1 && Number(date) <= 31
+    const isValidMonth = typeof month === 'number' && month >= 1 && month <= 12 
+    const isValideDate = typeof date === 'number' && date >= 1 && date <= 31
 
-    if (isValidMonth) {
+    if (isValidMonth || month === '') {
         filters.month = month
     }
 
@@ -22,9 +21,7 @@ const setFilters = ({ month, date, name }) => {
     }
 }
 
-
 const getFilters = () => filters
-
 
 
 export { setFilters, getFilters }

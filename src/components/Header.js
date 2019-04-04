@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
+import SearchField from './search-field/SearchField'
 import '../styles/components/header.scss'
 
 class Header extends Component {
     constructor(props) {
         super(props)
-        this.state = {}
     }
     render() {
         return (
             <div className='header'>
-                <p className='header__title'>All</p>
+                <p className='header__title'>{this.props.title}</p>
+                <SearchField /> 
             </div>
         )
     }
