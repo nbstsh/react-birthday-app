@@ -38,7 +38,7 @@ class BirthdayFormModalControll extends Component {
                     className={`modal__content ${this.state.isClosing ? 'close' : ''}`}
                     overlayClassName={`modal__overlay ${this.state.isClosing ? 'close' : ''}`}>
 
-                    <BirthdayForm />
+                    <BirthdayForm handleAfterSubmit={this.handleCloseModal}/>
 
                 </ReactModal>
             </React.Fragment>

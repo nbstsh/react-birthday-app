@@ -9,7 +9,7 @@ class Header extends Component {
     render() {
         return (
             <div className='header'>
-                <p className='header__month'>1月</p>
+                <p className='header__title'>All</p>
             </div>
         )
     }

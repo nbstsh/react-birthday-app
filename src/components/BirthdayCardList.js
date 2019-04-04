@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import BirthdayCard from './BirthdayCard'
-import uuidv4 from 'uuidv4'
 
 class BirthdayCardList extends Component {
     constructor(props) {
@@ -11,7 +10,7 @@ class BirthdayCardList extends Component {
         return (
             <ul>
                 {this.props.listItems.map(item => (
-                    <li key={uuidv4()}>
+                    <li key={item.id}>
                         <BirthdayCard
                             month={item.month}
                             date={item.date}

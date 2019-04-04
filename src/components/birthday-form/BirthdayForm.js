@@ -4,7 +4,8 @@ import NameInput from './NameInput';
 import DateSelect from './DateSelect';
 import DateDisplay from './DateDisplay';
 import Button from '../common/Button';
-import { createCharacter } from '../../js/character'
+import manager from '../../js/person-manager'
+
 
 class BirthdayForm extends Component {
     constructor(props) {
@@ -17,11 +18,14 @@ class BirthdayForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
 
-        const name = e.target.name.value
-        const birthday = `${e.target.month.value}/${e.target.date.value}`
+        manager.createPerson({
+            name: e.target.name.value,
+            month: Number(e.target.month.value),
+            date: Number(e.target.date.value)
+        })
 
-        console.log({ name, birthday })
-        createCharacter({ name, birthday})
+        if ('handleAfterSubmit' in this.props) 
+            this.props.handleAfterSubmit()
     }
     setMonthNum = (monthNum) => {
         this.setState({ monthNum })
