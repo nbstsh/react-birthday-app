@@ -16,8 +16,67 @@
     }
 
     &__body {
-        padding: 3rem 5rem;
+        flex: 1;
+        width: 100%;
+        align-self: center;
+        padding: 5rem;
         margin-bottom: auto;
+        max-width: 90rem;
+
+        display: grid;
+        grid-template-columns: 2fr 3fr; 
+        grid-row-gap: 5rem;
+
+        & .calendar-date {
+            color: $color-white;
+            z-index: 0;
+            justify-self: center;
+
+            background-image: $gradient;
+            // background-clip: text;
+            // color: transparent;
+
+            // &::after {
+            //     background-image: $gradient-dark;
+            // }
+        }
+
+
+
+        // & .calendar-date::before {
+        //     content: '';
+        //     display: block;
+        //     position: absolute;
+        //     top: 0;
+        //     left: 0;
+        //     z-index: -1;
+
+        //     width: 10rem;
+        //     height: 10rem;
+        //     border-radius: 100%;
+        //     background-image: $gradient-dark;
+        //     transform: translate(-7%, -10%);
+        // }
+    }
+
+    &__description {
+        display: grid;
+        grid-template-columns: 1fr min-content;
+        grid-template-rows: 1fr 1fr;
+        align-items: baseline;
+
+        color: $color-grey-dark-2;
+        text-transform: uppercase;
+
+        :nth-child(1) {
+            grid-column: 1 / -1;
+        }
+
+        :nth-child(2) {
+            font-size: 3.2rem;
+            justify-self: center;
+            font-family: fantasy;
+        }
     }
 
     &__footer {
@@ -25,7 +84,6 @@
         padding: 2rem 0;
         border-top: 1px solid $color-grey-light-3;
     }
-
 
     &__name {
         font-size: 3.2rem;
@@ -38,7 +96,6 @@
 
     &__button {
         display: inline-block;
-        color: $color-grey-dark-2;
         border: 1px solid $color-grey-light-3;
         position: relative;
         margin-right: .5rem;
@@ -50,7 +107,9 @@
 
         & i {
             font-size: 2rem;
+            // color: $color-grey-dark-2;
             @include absCenter;
         }
     }
+
 }

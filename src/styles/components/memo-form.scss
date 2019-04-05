@@ -1,0 +1,53 @@
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins.scss';
+
+.memo-form {
+    padding: 1rem;
+    border: 1px solid #f4f2f2;
+    background-color: white;
+    position: relative;
+    min-height: 10rem;
+    position: relative;
+
+    &__textarea {
+        position: relative;
+        width: 100%;
+        min-height: inherit;
+        padding: 1rem;
+        z-index: 101; // over the submit button
+        outline: none;
+    }
+
+    &__submit {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba($color-black, .1);
+        width: 100vw;
+        height: 100vh;
+        z-index: 100; // cover other elements exept for textarea and delete-btn
+    }
+
+    &__delete-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 100%;
+        background-image: $gradient-light;
+
+        z-index: 102;
+        cursor: pointer;
+        transition: all .2s;
+        @include buttonAnimation;
+
+        & i {
+            color: $color-grey-dark-2;
+        }
+    }  
+}

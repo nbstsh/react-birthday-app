@@ -2,9 +2,9 @@
 @import '../abstracts/mixins.scss';
 
 .calendar-date {
-    width: 10rem;
-    height: 10rem;
-    font-size: 4rem;
+    width: 8rem;
+    height: 8rem;
+    font-size: 2.4rem;
     display: flex;
     position: relative;
 
@@ -17,12 +17,12 @@
     }
 
     &__month {
-        padding: 1rem 0 0 1rem;
+        padding: .25em 0 0 .25em;
     }
 
 
     &__date {
-        padding: 0 1rem 1rem 0;
+        padding: 0 .25em .25em 0;
         align-self: flex-end;
     }
 
@@ -30,7 +30,7 @@
     &::after {
         content: '';
         display: block;
-        width: 3px;
+        width: 2px;
         height: 100%;
         background-color: currentColor;
         transform: rotate(45deg);

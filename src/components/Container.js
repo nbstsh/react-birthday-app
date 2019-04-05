@@ -23,14 +23,13 @@ class Container extends Component {
         manager.on(manager.UPDATE_FILTERS_EVENT, this.initPeopleAndHeaderTitle)
     }
     initPeople = ({ people }) => {
-        console.log('init People', people)
         this.setState({ people })
     }
     initPeopleAndHeaderTitle = ({ people, filter }) => {
         const headerTitle = filter.month || 'All'
         this.setState({ people, headerTitle })
     }
-    setSeelctedPersonId = (selectedPersonId) => {
+    setSelectedPersonId = (selectedPersonId) => {
         this.setState({ selectedPersonId })
     }
     findSelectedPerson() {
@@ -44,7 +43,9 @@ class Container extends Component {
         return (
             <div className='container'>
                 {selectedPerson && 
-                    <PersonDetail person={selectedPerson}/>
+                    <PersonDetail 
+                        person={selectedPerson}
+                        setSelectedPersonId={this.setSelectedPersonId}/>
                 }
 
                 {!selectedPerson &&
@@ -53,7 +54,7 @@ class Container extends Component {
                 {!selectedPerson &&
                     <Body 
                         people={this.state.people}
-                        setSelectedPersonId={this.setSeelctedPersonId} />
+                        setSelectedPersonId={this.setSelectedPersonId} />
                 }
                 {!selectedPerson &&
                     <Footer />

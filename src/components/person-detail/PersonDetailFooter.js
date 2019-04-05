@@ -9,7 +9,7 @@ class PersonDetailFooter extends Component {
     render() {
         return (
             <div className='person-detail__footer'>
-                <Button text='new Memo'/> 
+                <Button text='new Memo' handleClick={this.props.openMemoForm} /> 
             </div>
         ) 
     }

@@ -1,0 +1,43 @@
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins.scss';
+
+
+.memo {
+
+    &__list {
+        grid-column: 1 / -1;
+        width: 100%;
+
+        display: grid;
+        grid-template-rows: repeat(auto-fill, minmax($memo-card-height, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax($memo-card-width, 1fr));
+        grid-gap: 3rem;
+
+    }
+
+    &__item {
+        padding: 2rem;
+        color: $color-grey-dark-2;
+        font-size: $font-size-small;
+        border: 1px solid $color-grey-light-2;
+        background-color: $color-white;
+        min-height: $memo-card-height; 
+        cursor: pointer;
+        position: relative;
+        
+        &::after {
+            content: 'memo';
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: $font-size-small;
+            color: $color-grey-dark-2;
+            padding: .5rem 1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: $gradient-light;
+            transform: rotate(-10deg) translate(-10%, -25%);
+        }
+    }
+}

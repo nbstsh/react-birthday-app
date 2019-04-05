@@ -51,18 +51,22 @@ class PersonManager extends EventEmitter {
 
         return person
     }
-    async updatePerson({ id,  month, date, name }) {
+    async updatePerson({ id,  month, date, name, memos }) {
         const person = this.people.find((person) => person.id === id)
         if (!person) return 
+
+        const isValidMonth = typeof month === 'number' && month > 0 && month <= 12
+        const isValidDate = typeof month === 'number' && date > 0 && date <= 31
+        const isValidName = typeof name === 'string'
+        const isValidMemos = typeof memos === 'array'
     
-        if (typeof month === 'number' && month > 0 && month <= 12)
-            person.month = month
-    
-        if (typeof month === 'number' && date > 0 && date <= 31)
-            person.date = date
-    
-        if (typeof name === 'string')
-            person.name = name
+        if (isValidMonth) person.month = month
+        if (isValidDate) person.date = date
+        if (isValidName) person.name = name
+        if (isValidMemos) person.memos = memos
+
+        if (isValidMonth || isValidDate || isValidName || isValidMemos) 
+            person.updatedAt = moment().valueOf()
         
         await idbKeyval.set(person.id, person)
 
@@ -112,6 +116,39 @@ class PersonManager extends EventEmitter {
             people: this.getFilteredPeople(),
             filter: getFilters()
         })
+    }
+    createMemo(personId, memoContent) {
+        const person = this.people.find(p => p.id === personId)
+        if (!person) return 
+
+        person.memos.push({
+            id: uuidv4(),
+            content: memoContent
+        })
+
+        this.updatePerson(person)
+    }
+    updateMemo(personId, { id, content }) {
+        const person = this.people.find(p => p.id === personId)
+        if (!person) return 
+
+        const memo = person.memos.find(m => m.id === id)
+        if (!memo) return 
+
+        memo.content = content 
+
+        this.updatePerson(person)
+    }
+    deleteMemo(personId, memoId) {
+        const person = this.people.find(p => p.id === personId)
+        if (!person) return 
+
+        const index = person.memos.findIndex(m => m.id === memoId)
+        if (index === -1) return 
+
+        person.memos.splice(index, 1)
+        
+        this.updatePerson(person)
     }
 }
 
