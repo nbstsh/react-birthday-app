@@ -3,6 +3,7 @@ import '../styles/components/container.scss'
 import Header from './Header'
 import Body from './Body'
 import Footer from './Footer'
+import PersonDetail from './person-detail/PersonDetail'
 import  manager from '../js/person-manager'
 
 class Container extends Component {
@@ -10,7 +11,8 @@ class Container extends Component {
         super(props)
         this.state = {
             people: [],
-            headerTitle: 'All'
+            headerTitle: 'All',
+            selectedPersonId: ''
         }
     }
     async componentDidMount() {
@@ -28,12 +30,34 @@ class Container extends Component {
         const headerTitle = filter.month || 'All'
         this.setState({ people, headerTitle })
     }
+    setSeelctedPersonId = (selectedPersonId) => {
+        this.setState({ selectedPersonId })
+    }
+    findSelectedPerson() {
+        const { people, selectedPersonId } = this.state
+        if (!people || !selectedPersonId) return 
+
+        return people.find(p => p.id === selectedPersonId)
+    }
     render() {
+        const selectedPerson = this.findSelectedPerson()
         return (
             <div className='container'>
-                <Header title={this.state.headerTitle}/>
-                <Body people={this.state.people} />
-                <Footer />
+                {selectedPerson && 
+                    <PersonDetail person={selectedPerson}/>
+                }
+
+                {!selectedPerson &&
+                    <Header title={this.state.headerTitle}/>
+                }
+                {!selectedPerson &&
+                    <Body 
+                        people={this.state.people}
+                        setSelectedPersonId={this.setSeelctedPersonId} />
+                }
+                {!selectedPerson &&
+                    <Footer />
+                } 
             </div>
         )
     }

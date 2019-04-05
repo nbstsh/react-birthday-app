@@ -13,9 +13,11 @@ class BirthdayCardList extends Component {
                 {this.props.listItems.map(item => (
                     <li key={item.id}>
                         <BirthdayCard
+                            id={item.id}
                             month={item.month}
                             date={item.date}
-                            name={item.name} />
+                            name={item.name} 
+                            setSelectedPersonId={this.props.setSelectedPersonId} />
                     </li> 
                 ))}
 

@@ -11,7 +11,9 @@ class Body extends Component {
     render() {  
         return (
             <div className='body'>
-                <BirthdayCardList listItems={this.props.people} />
+                <BirthdayCardList 
+                    listItems={this.props.people} 
+                    setSelectedPersonId={this.props.setSelectedPersonId} />
             </div>
         )
     }
