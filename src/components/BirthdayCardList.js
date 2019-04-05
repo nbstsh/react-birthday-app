@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../styles/components/birthday-card.scss'
 import BirthdayCard from './BirthdayCard'
 
 class BirthdayCardList extends Component {
@@ -8,7 +9,7 @@ class BirthdayCardList extends Component {
     }
     render() {
         return (
-            <ul>
+            <ul className='birthday-card__list'>
                 {this.props.listItems.map(item => (
                     <li key={item.id}>
                         <BirthdayCard

@@ -56,7 +56,6 @@ class SearchField extends Component {
         manager.setFilters(emptyFilter)
     }
     render() {
-        console.log(this.state.month)
         return(
             <div className='search-field'>
 
