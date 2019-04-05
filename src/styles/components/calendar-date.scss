@@ -1,0 +1,41 @@
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins.scss';
+
+.calendar-date {
+    width: 10rem;
+    height: 10rem;
+    font-size: 4rem;
+    display: flex;
+    position: relative;
+
+    & > span {
+        flex: 1;
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__month {
+        padding: 1rem 0 0 1rem;
+    }
+
+
+    &__date {
+        padding: 0 1rem 1rem 0;
+        align-self: flex-end;
+    }
+
+    // line between month and date
+    &::after {
+        content: '';
+        display: block;
+        width: 3px;
+        height: 100%;
+        background-color: currentColor;
+        transform: rotate(45deg);
+        position: absolute;
+        top: 0;
+        left: 50%;
+    }
+}
