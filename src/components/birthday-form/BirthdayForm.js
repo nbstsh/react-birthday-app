@@ -11,18 +11,36 @@ class BirthdayForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            name: '',
             monthNum: 1,
             dateNum: 1
         }
     }
+    componentDidMount() {
+        if (!this.props.person) return  
+
+        const { name, month, date } = this.props.person
+        this.setState({ 
+            name,
+            monthNum: month,
+            dateNum: date
+        })
+    }
     handleSubmit = (e) => {
         e.preventDefault()
 
-        manager.createPerson({
+        const newPerson = {
             name: e.target.name.value,
             month: Number(e.target.month.value),
             date: Number(e.target.date.value)
-        })
+        }
+
+        if (this.props.person) {
+            Object.assign(this.props.person, newPerson)
+            manager.updatePerson(this.props.person)
+        } else {
+            manager.createPerson(newPerson)
+        }
 
         if ('handleAfterSubmit' in this.props) 
             this.props.handleAfterSubmit()
@@ -33,12 +51,17 @@ class BirthdayForm extends Component {
     setDateNum = (dateNum) => {
         this.setState({ dateNum })
     }
+    handleNameChange = (e) => {
+        this.setState({ name: e.target.value })
+    }
     render() {
-        const { monthNum, dateNum } = this.state
+        const { name, monthNum, dateNum } = this.state
         return (
             <div className='birthday-form'>
                 <form onSubmit={this.handleSubmit}>
-                    <NameInput />
+                    <NameInput 
+                        name={name}
+                        handleChange={this.handleNameChange} />
                     <DateSelect 
                         monthNum={monthNum} 
                         dateNum={dateNum}

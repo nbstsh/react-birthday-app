@@ -25,7 +25,7 @@ class PersonDetail extends Component {
         return (
             <div className='person-detail'>
                 <PersonDetailHeader 
-                    name={this.props.person.name} 
+                    person={this.props.person} 
                     handleReturnBtn={this.handleReturnBtn}/>
                 <PersonDetailBody 
                     person={this.props.person}

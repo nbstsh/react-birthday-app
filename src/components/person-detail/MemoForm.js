@@ -36,7 +36,8 @@ class MemoForm extends Component {
         e.stopPropagation()
 
         const { personId, memo } = this.props || {}
-        manager.deleteMemo(personId, memo.id)
+        if (personId && memo) 
+            manager.deleteMemo(personId, memo.id)
 
         if ('handleAfterSubmit' in this.props) 
             this.props.handleAfterSubmit()
