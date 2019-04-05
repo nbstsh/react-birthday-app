@@ -9,19 +9,26 @@ class MemoList extends Component {
         this.state = {}
     }
     render() {
+        const { memos, personId, needShowMemoForm, closeMemoForm } = this.props
+        if (!memos) return null
+
         return (
             <ul className='memo__list'>
-                {this.props.memos && this.props.memos.map(memo => (
+                {memos.length === 0 && !needShowMemoForm &&
+                    <p className='memo__empty-message'>There is no memo to show. Create a new memo!</p>
+                }
+
+                {memos.length > 0 && memos.map(memo => (
                     <MemoContainer 
                         key={memo.id}
                         memo={memo}
-                        personId={this.props.personId} />
+                        personId={personId} />
                 ))}
 
-                {this.props.needShowMemoForm && 
+                {needShowMemoForm && 
                     <MemoForm 
-                        personId={this.props.personId} 
-                        handleAfterSubmit={this.props.closeMemoForm}/>
+                        personId={personId} 
+                        handleAfterSubmit={closeMemoForm}/>
                 }
             </ul>
         )

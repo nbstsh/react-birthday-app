@@ -40,4 +40,15 @@
             transform: rotate(-10deg) translate(-10%, -25%);
         }
     }
+
+    &__empty-message {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: $gradient-light;
+        background-clip: text;
+        color: transparent;
+        height: 30rem;
+    }
 }
