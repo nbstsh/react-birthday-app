@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { lastDateOf } from '../../js/util'
 
 class DateSelect extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class DateSelect extends Component {
         }
 
         let dayOptions = []
-        for(let i = 1; i <= 31; i++) {
+        for(let i = 1; i <= lastDateOf(this.props.monthNum); i++) {
             dayOptions.push(<option key={i} value={i}>{i}日</option>)
         }
         return (

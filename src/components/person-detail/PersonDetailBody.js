@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CalendarDate from '../common/CalendarDate'
 import PersonDetailDescriptioin from './PersonDetailDescription';
 import MemoList from './MemoList';
-import moment from 'moment'
+import { calcFromNow } from '../../js/util'
 
 class PersonDetailBody extends Component {
     constructor(props) {
@@ -28,21 +28,6 @@ class PersonDetailBody extends Component {
             </div>
         ) 
     }
-}
-
-function calcFromNow(month, date) {
-    const currentMonth = moment().month() + 1
-    const currentDate = moment().date()
-    const currentYear = moment().year()
-    const year = month > currentMonth ? currentYear 
-                : month === currentMonth && date >= currentDate ? currentYear
-                : currentYear + 1
-                
-    const target = moment([year, month - 1, date])
-    const today = moment()
-    var duration = moment.duration(target.diff(today))
-
-    return Math.round(duration.asDays())
 }
 
 

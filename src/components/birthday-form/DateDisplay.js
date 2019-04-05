@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../../styles/components/date-display.scss'
-
+import { lastDateOf } from '../../js/util'
 
 class DateDisplay extends Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class DateDisplay extends Component {
         }
 
         let dateNums = []
-        for(let i = 1; i <= 31; i++) {
+        for(let i = 1; i <= lastDateOf(this.props.monthNum); i++) {
             const clicked = i === this.props.dateNum ? 'clicked' : ''
             dateNums.push(
                 <span 
@@ -35,7 +35,6 @@ class DateDisplay extends Component {
                     className={`date-display__date-number ${clicked}`} 
                     data-value={i}
                     onClick={this.handleDateClick}>{i}</span>
-        
             )
         }
         return (

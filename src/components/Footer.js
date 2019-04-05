@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import '../styles/components/header.scss'
-import Button from './common/Button'
 import BirthdayFormModalControll from './BirthdayFormModalControll';
 
 

@@ -58,7 +58,7 @@ class PersonManager extends EventEmitter {
         const isValidMonth = typeof month === 'number' && month > 0 && month <= 12
         const isValidDate = typeof month === 'number' && date > 0 && date <= 31
         const isValidName = typeof name === 'string'
-        const isValidMemos = typeof memos === 'array'
+        const isValidMemos = Array.isArray(memos)
     
         if (isValidMonth) person.month = month
         if (isValidDate) person.date = date
