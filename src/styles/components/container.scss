@@ -2,12 +2,10 @@
 @import '../abstracts/mixins.scss';
 
 .container {
-
     width: 80%;
     max-width: $display-max-width;
     min-height: 90vh;
-    margin: 0 auto;
-    margin-top: 5rem;
+    margin: 5vh auto;
     background-color: $color-grey-light-1;
     box-shadow: $shadow-dark-1;
     
@@ -18,28 +16,5 @@
         width: 100%;
         min-height: 100vh;
         margin: 0;
-    }
-
-    & > .header {
-        padding: 2rem;
-        display: flex;
-        justify-content: space-between;
-        background-color: $color-white;
-        border-bottom: 1px solid $color-grey-light-3;
-
-        @include respond(tab-port) {
-            position: relative;
-        }
-    }
-
-    & .body {
-        padding: 3rem 5rem;
-        margin-bottom: auto;
-    }
-
-    & .footer {
-        background-color: $color-white;
-        padding: 2rem 0;
-        border-top: 1px solid $color-grey-light-3;
     }
 }

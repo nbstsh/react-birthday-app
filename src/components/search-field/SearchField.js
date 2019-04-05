@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../../styles/components/search-field.scss'
 import manager from '../../js/person-manager'
 
 class SearchField extends Component {
@@ -63,6 +64,7 @@ class SearchField extends Component {
                     type='number' 
                     name='month' 
                     placeholder='month' 
+                    className='search-field__input search-field__input--month'
                     value={this.state.month}
                     onChange={this.handleMonthChange}/>
 
@@ -70,6 +72,7 @@ class SearchField extends Component {
                     type='number' 
                     name='date' 
                     placeholder='date' 
+                    className='search-field__input search-field__input--date'
                     value={this.state.date}
                     onChange={this.handleDateChange} />
 
@@ -78,9 +81,15 @@ class SearchField extends Component {
                     name='name' 
                     placeholder='name' 
                     value={this.state.name}
+                    className='search-field__input search-field__input--name'
                     onChange={this.handleNameChange}/>
 
-                <button onClick={this.handleResetClick}>reset</button>
+                <button
+                    className='search-field__reset-btn' 
+                    onClick={this.handleResetClick}>
+                    <span>reset</span>
+                </button>
+
             </div>
         )
     }

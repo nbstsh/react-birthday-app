@@ -27,12 +27,28 @@
         grid-template-columns: 2fr 3fr; 
         grid-row-gap: 5rem;
 
+        overflow-y: scroll;
+        height: 65vh;
+
+        @include respond(tab-port) {
+            height: 75vh;
+        }
+
+        @include respond(phone) {
+            height: 70vh;
+        }
+
         & .calendar-date {
             color: $color-white;
             z-index: 0;
             justify-self: center;
 
             background-image: $gradient;
+
+
+            @include respond(phone-small) {
+                grid-column: 1 / -1;
+            }
         }
     }
 
@@ -44,6 +60,10 @@
 
         color: $color-grey-dark-2;
         text-transform: uppercase;
+
+        @include respond(phone-small) {
+            grid-column: 1 / -1;
+        }
 
         :nth-child(1) {
             grid-column: 1 / -1;

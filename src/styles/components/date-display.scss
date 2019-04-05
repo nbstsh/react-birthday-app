@@ -2,9 +2,6 @@
 @import '../abstracts/mixins.scss';
 
 .date-display {
-    @include respond(tab-port) {
-        padding-top: 3rem;
-    }
 
     &__month {
         display: flex;
@@ -12,10 +9,6 @@
         width: 80%;
         margin: 0 auto;
         position: relative;
-
-        @include respond(tab-port) {
-            padding-bottom: 4rem;
-        }
 
         &::after {
             content: 'Month';
@@ -28,10 +21,6 @@
             color: $color-grey-dark-3;
 
             @include labelFont;
-
-            @include respond(tab-port) {
-                top: -5.5rem;
-            }
         }
     }
 
@@ -94,10 +83,6 @@
             transform: translateX(-2rem);
 
             @include labelFont;
-
-            @include respond(tab-port) {
-                top: -5.5rem;
-            }
         }
     }   
 
@@ -109,7 +94,6 @@
         
         &::after {
             content: '';
-            // border: 1px solid blue;
             background-image: $gradient-dark;
             border-radius: 2rem;
             position: absolute;

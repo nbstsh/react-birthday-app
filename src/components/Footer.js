@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import '../styles/components/header.scss'
+import '../styles/components/footer.scss'
 import BirthdayFormModalControll from './BirthdayFormModalControll';
 
 

@@ -1,9 +1,30 @@
-
 @import '../abstracts/variables.scss';
 @import '../abstracts/mixins.scss';
 
 .header {
+
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    background-color: $color-white;
+    border-bottom: 1px solid $color-grey-light-3;
+
+    @include respond(phone) {
+        justify-content: center;
+    }
+
     &__title {
-        font-size: 2rem;
+        font-size: 3.2rem;
+        background-image: $gradient-dark;
+        background-clip: text;
+        color: transparent;
+
+        @include respond(phone) {
+            text-align: center;
+            margin-bottom: 1rem;
+            flex: 0 0 100%;
+        }
     }
 }
