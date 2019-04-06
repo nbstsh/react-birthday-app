@@ -8,6 +8,19 @@
     position: relative;
     z-index: 10000;
 
+    @include respond(phone) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & form {
+            padding: 3rem 0;
+            width: 100vw;
+            height: 100vh;
+            overflow-y: scroll;
+        }
+    }
+
     &__group {
         position: relative;
 
@@ -22,6 +35,10 @@
             margin: 0 auto;
             margin-bottom: 7rem;
             margin-top: 2rem;
+
+            @include respond(phone) {
+                width: 90%;
+            }
         }
     }
 
@@ -105,9 +122,21 @@
         cursor: pointer;
     }
 
-    &__button {
-        display: block;
-        margin: 0 auto;
-    }
+    &__btn { 
+        display: inline-block;
+        width: 30%;
+        padding: 1.5rem 2rem;
+        border: none;
+        overflow: hidden;
+        position: relative;
+        border-radius: 10rem;
+        background-image: $gradient-light;
+        margin: 0 2.5%;
+        color: $color-grey-dark-1;
+        background-size: 200%;
 
+        &:nth-of-type(2) {
+            background-position: right;
+        }
+    }
 }

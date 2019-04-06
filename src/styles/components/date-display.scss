@@ -69,6 +69,10 @@
         grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
         grid-gap: 2rem;
 
+        @include respond(phone) {
+            grid-gap: 3vw;
+        }
+
         &::after {
             content: 'Date';
             // border: 1px solid blue;

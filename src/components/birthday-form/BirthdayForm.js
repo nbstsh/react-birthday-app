@@ -54,6 +54,10 @@ class BirthdayForm extends Component {
     handleNameChange = (e) => {
         this.setState({ name: e.target.value })
     }
+    handleCancelBtnClick = () => {
+        if ('handleAfterSubmit' in this.props) 
+            this.props.handleAfterSubmit()
+    }
     render() {
         const { name, monthNum, dateNum } = this.state
         return (
@@ -72,7 +76,16 @@ class BirthdayForm extends Component {
                         dateNum={dateNum}
                         setMonthNum={this.setMonthNum}
                         setDateNum={this.setDateNum}/>
-                    <Button text='submit'/>
+
+                    <button 
+                        type='button' 
+                        className='birthday-form__btn' 
+                        onClick={this.handleCancelBtnClick}>cancel</button>
+                    <button 
+                        type='submit' 
+                        className='birthday-form__btn'>submit</button>
+                    
+                   
                 </form>
             </div>
         )
