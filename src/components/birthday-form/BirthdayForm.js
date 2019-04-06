@@ -3,7 +3,6 @@ import '../../styles/components/birthday-form.scss'
 import NameInput from './NameInput';
 import DateSelect from './DateSelect';
 import DateDisplay from './DateDisplay';
-import Button from '../common/Button';
 import manager from '../../js/person-manager'
 
 
