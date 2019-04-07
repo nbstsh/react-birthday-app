@@ -11,6 +11,10 @@
 
         @include respond(phone) {
             width: 20%;
+
+            &::placeholder {
+                font-size: .8rem;
+            }
         }
 
         &--month,
@@ -21,6 +25,11 @@
         &--name {
             text-align: center;
             width: 15rem;
+            letter-spacing: initial;
+
+            &::placeholder {
+                letter-spacing: .5rem;
+            }
 
             @include respond(phone) {
                 width: 30%;
@@ -29,9 +38,7 @@
     }
 
     &__reset-btn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include displayFlexCenter;
 
         font-size: .8rem;
         position: relative;
@@ -40,6 +47,13 @@
         height: 3rem;
         transform: rotate(45deg);
         background-image: $gradient-light;
+        border: none;
+
+        @include respond(phone-small) {
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: .5rem;
+        }
 
         & > * {
             transform: rotate(-45deg);

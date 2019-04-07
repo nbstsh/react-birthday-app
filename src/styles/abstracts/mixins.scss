@@ -39,41 +39,6 @@
     }
 }
 
-@mixin iconCheckedAnimation($second) {
-
-    & .icon-checkbox{
-        // opacity: 0;
-        float: right;
-        transform: translate(1.5rem, 0);
-
-        & + .icon {
-            position: relative;
-            transition: all $second;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-        }
-
-        &:checked + .icon {
-            transform: rotate(360deg);
-            @content;
-        }
-    }
-}
-
-@mixin uTriggeredAnimation($options) {
-    & > .u-trigger {
-        & + .u-target {
-            transition: all $options;
-        }
-
-        &:checked + .u-target {
-            @content;
-        }
-    }
-}
-
 @mixin labelFont {
     color: gray;
     letter-spacing: .4rem;
@@ -103,7 +68,6 @@
     border-radius: 100px;
 }
 
-
 @mixin textClip($background) {
     background: $background;
     color: transparent;
@@ -114,4 +78,10 @@
 @mixin memoCardSize {
     width: $memo-card-width;
     height: $memo-card-height;
+}
+
+@mixin displayFlexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

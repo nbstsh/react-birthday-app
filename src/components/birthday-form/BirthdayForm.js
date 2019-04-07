@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import '../../styles/components/birthday-form.scss'
-import NameInput from './NameInput';
-import DateSelect from './DateSelect';
-import DateDisplay from './DateDisplay';
+import NameInput from './NameInput'
+import DateSelect from './DateSelect'
+import DateDisplay from './DateDisplay'
+import ButtonBox from './ButtonBox'
 import manager from '../../js/person-manager'
 
 
@@ -61,7 +62,7 @@ class BirthdayForm extends Component {
         const { name, monthNum, dateNum } = this.state
         return (
             <div className='birthday-form'>
-                <form onSubmit={this.handleSubmit}>
+                <form className='birthday-form__form' onSubmit={this.handleSubmit}>
                     <NameInput 
                         name={name}
                         handleChange={this.handleNameChange} />
@@ -69,22 +70,14 @@ class BirthdayForm extends Component {
                         monthNum={monthNum} 
                         dateNum={dateNum}
                         setMonthNum={this.setMonthNum}
-                        setDateNum={this.setDateNum}/>
+                        setDateNum={this.setDateNum} />
                     <DateDisplay 
                         monthNum={monthNum} 
                         dateNum={dateNum}
                         setMonthNum={this.setMonthNum}
-                        setDateNum={this.setDateNum}/>
-
-                    <button 
-                        type='button' 
-                        className='birthday-form__btn' 
-                        onClick={this.handleCancelBtnClick}>cancel</button>
-                    <button 
-                        type='submit' 
-                        className='birthday-form__btn'>submit</button>
-                    
-                   
+                        setDateNum={this.setDateNum} />
+                    <ButtonBox 
+                        handleCancelBtnClick={this.handleCancelBtnClick} />                    
                 </form>
             </div>
         )

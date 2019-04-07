@@ -45,7 +45,6 @@
 
             background-image: $gradient;
 
-
             @include respond(phone-small) {
                 grid-column: 1 / -1;
             }

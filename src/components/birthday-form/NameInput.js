@@ -8,7 +8,7 @@ const NameInput = ({ name, handleChange }) => {
             <input 
                 type="text" 
                 name="name" 
-                placeholder="name" 
+                placeholder="NAME" 
                 className="birthday-form__name" 
                 value={name} 
                 onChange={handleChange}

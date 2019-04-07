@@ -2,8 +2,8 @@
 @import '../abstracts/mixins.scss';
 
 .calendar-date {
-    width: 8rem;
-    height: 8rem;
+    width: $calendar-date-width;
+    height: $calendar-date-width;
     font-size: 2.4rem;
     display: flex;
     position: relative;
