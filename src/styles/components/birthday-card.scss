@@ -17,6 +17,7 @@ $date-width: 4rem;
         border: 1.5rem solid #fff;
         position: relative;
         cursor: pointer;
+        box-shadow: $shadow-light-1;
     }
 
     &__month {
