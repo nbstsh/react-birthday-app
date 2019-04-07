@@ -9,6 +9,10 @@
     &__input {
         width: 10rem;
 
+        @include respond(phone) {
+            width: 20%;
+        }
+
         &--month,
         &--date {
             text-align: end;
@@ -17,6 +21,10 @@
         &--name {
             text-align: center;
             width: 15rem;
+
+            @include respond(phone) {
+                width: 30%;
+            }
         }
     }
 
