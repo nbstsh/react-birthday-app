@@ -36,16 +36,19 @@ $date-width: 4rem;
     }
 
     &__date {
+        position: absolute;
+        top: $date-width * 3 / 8;
+        left: $date-width * 3 / 4;
         font-size: $default-font-size;
         color: $color-grey-dark-2;
-        margin-left: 2.5rem;
-        margin-bottom: .3rem;
     }
 
     &__name {
         padding: 1rem;
+        padding-left: $date-width * 5 / 4;
         flex: 1;
         display: flex;
         justify-content: center;
+        word-break: break-all;
     }
 }
