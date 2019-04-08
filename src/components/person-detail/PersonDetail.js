@@ -17,9 +17,15 @@ class PersonDetail extends Component {
     }
     openMemoForm = () => {
         this.setState({ needShowMemoForm: true })
+        setTimeout(this.focusMemoForm, 150)
     }
     closeMemoForm = () => {
         this.setState({ needShowMemoForm: false })
+    }
+    focusMemoForm() {
+        // make sure memo form is visible and focused when it shows
+        const memoForm = document.querySelector('.memo-form__textarea')
+        memoForm.focus()
     }
     render() {
         return (

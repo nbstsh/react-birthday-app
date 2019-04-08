@@ -4,7 +4,7 @@
 .body {
     padding: 3rem 5rem;
     overflow-y: scroll;
-    height: 65vh;
+    height: 70vh;
 
     @include respond(tab-port) {
         height: 75vh;
