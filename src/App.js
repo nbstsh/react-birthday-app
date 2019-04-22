@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './js/firebase-init'
 import Container from './components/Container'
 
 class App extends Component {
