@@ -11,6 +11,7 @@ firebase.initializeApp(config.firebase)
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         manager.isSinedin = true
+        console.log('signed in')
     } else {
         manager.isSinedin = false
     }
