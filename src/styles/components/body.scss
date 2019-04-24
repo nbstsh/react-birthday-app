@@ -7,6 +7,10 @@
     height: 70vh;
 
     @include respond(tab-port) {
+        height: 80vh;
+    }
+
+    @include respond(phone) {
         height: 75vh;
     }
 

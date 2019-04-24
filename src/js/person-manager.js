@@ -3,6 +3,8 @@ import moment from 'moment'
 import createIdbKeyval from './idb-keyval'
 import EventEmitter from 'events'
 import { setFilters, getFilters } from './filters'
+import { createPersonInFirestore, updatePersonInFirestore, 
+        deletePersonInFirestore, setMemoInFirestore, deleteMemoInFirestore } from './firestore'
 const idbKeyval = createIdbKeyval('people')
 
 
@@ -13,6 +15,7 @@ class PersonManager extends EventEmitter {
         this.people = []
         this.UPDATE_IDB_EVENT = 'updateIdb'
         this.UPDATE_FILTERS_EVENT = 'updateFilters'
+        this.isSinedin = false
     }
     getPeople() {
         return this.people
@@ -25,7 +28,7 @@ class PersonManager extends EventEmitter {
         // array is sorted by month/date
         this.sortByDate()
 
-        return Promise.resolve(this.people)
+        return this.people
     }
     async resetPeople() {
         this.people = []
@@ -44,8 +47,12 @@ class PersonManager extends EventEmitter {
             updatedAt: moment().valueOf()
         }
 
+        if (this.isSinedin) {
+            await createPersonInFirestore(person)
+        }
+
         this.people.push(person)
-        await await idbKeyval.set(id, person)
+        await this.savePersonInIdb(id, person)
 
         this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
 
@@ -68,7 +75,12 @@ class PersonManager extends EventEmitter {
         if (isValidMonth || isValidDate || isValidName || isValidMemos) 
             person.updatedAt = moment().valueOf()
         
-        await idbKeyval.set(person.id, person)
+
+        if (this.isSinedin) {
+            await updatePersonInFirestore(person)
+        }
+
+        await this.savePersonInIdb(person.id, person)
 
         this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
@@ -76,8 +88,11 @@ class PersonManager extends EventEmitter {
         const index = this.people.findIndex((person) => person.id === id)
         
         if (index > -1) {
-            const personArray = this.people.splice(index, 1)
-            await idbKeyval.delete(personArray[0].id)
+            if (this.isSinedin) {
+                await deletePersonInFirestore(this.people[index])
+            }
+            const personToDelete = this.people.splice(index, 1)[0]
+            await this.deletePersonInIdb(personToDelete.id)
 
             this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
         }
@@ -117,18 +132,29 @@ class PersonManager extends EventEmitter {
             filter: getFilters()
         })
     }
-    createMemo(personId, memoContent) {
+    async createMemo(personId, memoContent) {
         const person = this.people.find(p => p.id === personId)
         if (!person) return 
 
-        person.memos.push({
+        const memo = {
             id: uuidv4(),
             content: memoContent
-        })
+        }
 
-        this.updatePerson(person)
+        if (this.isSinedin) {
+            await setMemoInFirestore(person.id, memo)
+        }
+
+        if (person.memos) {
+            person.memos.push(memo)
+        } else {
+            person.memos = [memo]
+        }
+        
+        this.savePersonInIdb(person.id, person)
+        this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
-    updateMemo(personId, { id, content }) {
+    async updateMemo(personId, { id, content }) {
         const person = this.people.find(p => p.id === personId)
         if (!person) return 
 
@@ -137,18 +163,33 @@ class PersonManager extends EventEmitter {
 
         memo.content = content 
 
-        this.updatePerson(person)
+        if (this.isSinedin) {
+            await setMemoInFirestore(person.id, memo)
+        }
+
+        this.savePersonInIdb(person.id, person)
+        this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
-    deleteMemo(personId, memoId) {
+    async deleteMemo(personId, memoId) {
         const person = this.people.find(p => p.id === personId)
         if (!person) return 
 
         const index = person.memos.findIndex(m => m.id === memoId)
         if (index === -1) return 
 
+        if (this.isSinedin) {
+            await deleteMemoInFirestore(person.id, person.memos[index])
+        }
+
         person.memos.splice(index, 1)
         
         this.updatePerson(person)
+    }
+    async savePersonInIdb(id, person) {
+        await idbKeyval.set(id, person)
+    }
+    async deletePersonInIdb(id) {
+        await idbKeyval.delete(id)
     }
 }
 

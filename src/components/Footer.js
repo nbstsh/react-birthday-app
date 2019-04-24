@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../styles/components/footer.scss'
 import BirthdayFormModalControll from './BirthdayFormModalControll';
+import AuthFormModalController from './Signin/AuthFormModalController';
 
 
 class Footer extends Component {
@@ -12,6 +13,7 @@ class Footer extends Component {
         return (
             <div className='footer'>
                 <BirthdayFormModalControll />
+                <AuthFormModalController />
             </div>
         )
     }

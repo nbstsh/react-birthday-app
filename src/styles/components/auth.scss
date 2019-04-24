@@ -1,0 +1,166 @@
+@import '../abstracts/variables.scss';
+@import '../abstracts/mixins.scss';
+
+
+.auth  {
+    padding: 5rem;
+
+    @include respond(phone) {
+        margin: auto;
+        width: 100vw;
+        height: 100vh;
+        padding: 4rem;
+        @include displayFlexCenter;
+        flex-direction: column;
+        position: relative;
+
+        & > * {
+            width: 100%;
+        }
+    }
+
+    @include respond(phone-small) {
+        padding: 2.5rem;
+    }
+
+    &__title {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        color: $color-grey-dark-2;
+
+        @include respond(phone) {
+            margin-bottom: 3rem;
+        }
+    }
+
+    &__description {
+        color: $color-grey-dark-3;
+        line-height: 2.5rem;
+        margin-bottom: 2.5rem;
+
+        @include respond(phone) {
+            margin-bottom: 3rem;
+        }
+    }
+
+    &__form {
+        @include displayFlexCenter;
+        flex-direction: column;
+        padding-top: 1rem;
+
+        @include respond(phone) {
+            padding-top: 2rem;
+        }
+    }
+
+    &__form-group {
+        width: 100%;
+        position: relative;
+        margin-bottom: 4rem;
+    }
+
+    $input-padding: .5rem 2rem;
+
+    &__input {
+        display: block;
+        width: 100%;
+        height: 5rem;
+        border-radius: 3px;
+        padding: $input-padding;
+
+        background-color: $color-grey-light-1;
+        color: $color-grey-dark-1;
+
+        &:focus {
+            border-bottom:3px solid $color-secondary;
+
+            &:invalid {
+                border-bottom:3px solid $color-primary;
+            }
+        }
+
+        &:placeholder-shown + label {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(0);
+        }
+
+        & + label {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            padding: $input-padding;
+
+            position: absolute;
+            top: 0;
+
+            @include labelFont;
+
+            opacity: 1;
+            visibility: visible;
+            transition: all .2s;
+            transform: translateY(5rem);
+        }   
+    }
+
+    &__button {
+        width: 100%;
+        padding: 1.5rem;
+        border: none;
+        border-radius: 3px;
+        background-image: $gradient-light;
+        font-size: 1.3rem;
+        @include labelFont;
+        transition: all .2s;
+
+        @include buttonAnimation;
+    }
+
+    &__link {
+        // reset
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        appearance: none;
+
+        align-self: flex-end;
+        display: block;
+        padding: 1rem;
+        color: $color-grey-light-4;
+        font-size: $default-font-size;
+
+
+        &:hover {
+            color: $color-grey-dark-3;
+        }
+    }
+
+
+    .error-message,
+    .success-message {
+        padding-bottom: 2rem;
+        text-align: center;
+    }
+
+    &__return {
+        display: none;
+        @include respond(phone) {display: block;}
+
+        color: $color-grey-dark-3;
+        cursor: pointer;
+        position: absolute;
+        bottom: 5vh;
+        width: initial;
+        left: 50%;
+        transform: translateX(-50%);
+
+        &:hover {
+            color: $color-grey-dark-2;
+        }
+    }
+
+    &__icon {
+        padding-right: 1rem;
+    }
+}
