@@ -30,6 +30,15 @@ body {
     min-height: 100vh;
 }
 
+.App {
+    height: 100vh;
+    padding: 5vh 0;
+
+    @include respond(tab-port) {
+        padding: 0;
+    }
+}
+
 ul {
     list-style: none;
 }

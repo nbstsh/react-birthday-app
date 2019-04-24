@@ -2,14 +2,14 @@ import firebase from 'firebase/app'
 import manager from './person-manager'
 
 
-const attachOwner = (data) => {
+const attachAuthId = (data) => {
     const user = firebase.auth().currentUser
     if (!user) throw new Error('User is not signed in.')
 
-    data.owner = user.uid
+    data.authId = user.uid
 }
 
-const uploadAllPeople = async () => {
+const uploadAllPeopleToFirestore = async () => {
     const people = await manager.loadPeople()
     if (!people) throw new Error('Fail to load people data.')
 
@@ -19,9 +19,9 @@ const uploadAllPeople = async () => {
     const batch = firebase.firestore().batch()    
     people.forEach(person => {
         const personRef = firebase.firestore().collection('people').doc(person.id)
-        person.owner = user.uid
+        const authId = user.uid
         const { id, month, date, name, memos, createdAt, updatedAt } = person
-        batch.set(personRef, { id, month, date, name, createdAt, updatedAt })
+        batch.set(personRef, { id, month, date, name, authId, createdAt, updatedAt })
 
         if (!memos) return 
         memos.forEach(memo => {
@@ -32,8 +32,19 @@ const uploadAllPeople = async () => {
     await batch.commit()
 }
 
+const syncDataFromFirestore = async () => {
+    const user = firebase.auth().currentUser
+    if (!user) return 
+
+    const query = firebase.firestore().collection('people').where('authId', '==', user.uid)
+    const querySnapshot = await query.get()
+    querySnapshot.forEach(doc => {
+        console.log(doc.id, " => ", doc.data());
+    })
+}
+
 const createPersonInFirestore = async (person) => {
-    attachOwner(person)
+    attachAuthId(person)
     const personRef = firebase.firestore().collection('people').doc(person.id)
     await personRef.set(person)
 }
@@ -57,7 +68,7 @@ const deletePersonInFirestore = async (person) => {
 }
 
 const createMemoInFirestore = async (personId, memo) => {
-    attachOwner(memo)
+    attachAuthId(memo)
     const memoRef = firebase.firestore().collection('people').doc(personId).collection('memos').doc(memo.id)
     await memoRef.set(memo)
 }
@@ -73,11 +84,12 @@ const deleteMemoInFirestore = async (personId, memo) => {
 }
 
 export { 
-    uploadAllPeople,
+    uploadAllPeopleToFirestore,
     createPersonInFirestore, 
     updatePersonInFirestore, 
     deletePersonInFirestore,
     createMemoInFirestore,
     updateMemoInFirestore,
-    deleteMemoInFirestore
+    deleteMemoInFirestore,
+    syncDataFromFirestore
 }

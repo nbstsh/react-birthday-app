@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactModal from 'react-modal'
 import firebase from 'firebase/app'
 import AuthForm from './AuthForm'
-import Signout from './Singout'
+import SignoutContainer from './SignoutContainer'
 
 class AuthFormModalControll extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class AuthFormModalControll extends Component {
     }
     render() {
         const content = firebase.auth().currentUser ? (
-            <Signout handleAfterSubmit={this.handleCloseModal} />
+            <SignoutContainer closeModal={this.handleCloseModal} />
         ) : (
             <AuthForm  handleAfterSubmit={this.handleCloseModal} />   
         )

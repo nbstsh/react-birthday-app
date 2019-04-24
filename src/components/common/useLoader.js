@@ -4,11 +4,9 @@ import LoaderGif from './LoaderGif'
 const userLoader = () => {
     const [needLoader, setNeedLoader] = useState(false) 
 
-    const Loader = () => {
-        return needLoader ? <LoaderGif /> : null
-    }
+    const loader = needLoader ? <LoaderGif /> : null
 
-    return { needLoader, setNeedLoader, Loader}
+    return { needLoader, setNeedLoader, loader }
 }
 
 

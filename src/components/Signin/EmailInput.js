@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EmailInput = ({ email, setEmail}) => {
+const EmailInput = ({ email, setEmail }) => {
     return (
         <div className='auth__form-group'>
             <input 
