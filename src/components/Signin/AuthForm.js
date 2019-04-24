@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../../styles/components/signin.scss'
+import '../../styles/components/auth.scss'
 import Joi from 'joi'
 import useErrorSuccess from '../common/useErrorSuccess'
 import firebase from 'firebase/app'
@@ -7,11 +7,13 @@ import EmailInput from './EmailInput'
 import PasswordInput from './PasswordInput'
 import SignupDescription from './SignupDescription'
 import SigninDescription from './SigninDescription'
+import useLoader from '../common/useLoader'
 
 const AuthForm = ({ handleAfterSubmit }) => {
     const [authType, setAuthType] = useState('signin')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const { needLoader, setNeedLoader, Loader} = useLoader()
     const { setErrorMessage, setSucessMessage, ErrorMessage, SuccessMessage, resetErrorAndSuccessMessages } = useErrorSuccess()
     const text = { signup: 'Sign up', signin: 'Sign in'}
 
@@ -38,6 +40,7 @@ const AuthForm = ({ handleAfterSubmit }) => {
 
         try {
             validate()
+            setNeedLoader(true)
 
             if (authType === 'signup') {
                 await firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -45,17 +48,19 @@ const AuthForm = ({ handleAfterSubmit }) => {
                 await firebase.auth().signInWithEmailAndPassword(email, password)
             }
             setSucessMessage(`Successfully ${text[authType]}!`)
-            setTimeout(() => handleSuccess(), 1000)
+            setNeedLoader(false)
+            setTimeout(() => handleSuccess(), 800)
         } 
         catch (e) { 
             const errorMessage = e.code && e.code.includes('auth') ? 'Invalid password or email' : e.message
             setErrorMessage(errorMessage)
+            setNeedLoader(false)
         }         
     }
 
     const title = {
-        signin : <h2 className='signin__title'>Sign in and Save data!</h2>,
-        signup: <h2 className='signin__title'>Hi there! Welcome to Birthday app!</h2>
+        signin : <h2 className='auth__title'>Sign in and Save data!</h2>,
+        signup: <h2 className='auth__title'>Hi there! Welcome to Birthday app!</h2>
     }
     const description = {
         signin : <SigninDescription />,
@@ -67,24 +72,28 @@ const AuthForm = ({ handleAfterSubmit }) => {
     }
     const handleLinkClick = () => {
         resetErrorAndSuccessMessages()
-        if (authType === 'signup') {
-            setAuthType('signin')
-        } else if (authType === 'signin'){
-            setAuthType('signup')
-        } 
+        if (authType === 'signup') setAuthType('signin')    
+        if (authType === 'signin') setAuthType('signup')
     }
 
+    const SubmitButton = () => (
+        <button type='submit' className='auth__button'>
+            <Loader />
+            {!needLoader && text[authType]}
+        </button>
+    )
+
     return (
-        <div className='signin'>
+        <div className='auth'>
             {title[authType]}
             {description[authType]}
             <ErrorMessage />
             <SuccessMessage />
-            <form onSubmit={handleSubmit} className='signin__form'>
+            <form onSubmit={handleSubmit} className='auth__form'>
                 <EmailInput email={email} setEmail={setEmail}/>
                 <PasswordInput password={password} setPassword = {setPassword} />
-                <button type='submit' className='signin__button'>{text[authType]}</button>
-                <button type='button' className='signin__link' onClick={handleLinkClick}>{link[authType]}</button>
+                <SubmitButton />
+                <button type='button' className='auth__link' onClick={handleLinkClick}>{link[authType]}</button>
             </form>
         </div>
     )

@@ -1,13 +1,14 @@
 import React, { Component } from 'react' 
 import ReactModal from 'react-modal'
-import AuthForm from './AuthForm';
+import firebase from 'firebase/app'
+import AuthForm from './AuthForm'
+import Signout from './Singout'
 
 class AuthFormModalControll extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            showModal: false,
-            isSinedin: false
+            showModal: false
         }
     }
     handleOpenModal = () => {
@@ -16,22 +17,16 @@ class AuthFormModalControll extends Component {
     handleCloseModal = () => {
         this.setState({ showModal: false })
     }
-    setIsSignedin = (isSinedin) => {
-        this.setState({ isSinedin })
-    }
     render() {
-        const content = this.state.isSinedIn ? (
-            <h1>Sign out form</h1>
+        const content = firebase.auth().currentUser ? (
+            <Signout handleAfterSubmit={this.handleCloseModal} />
         ) : (
-            <AuthForm  handleAfterSubmit={() => {
-                this.handleCloseModal()
-                this.setIsSignedin(true)
-            }} />   
+            <AuthForm  handleAfterSubmit={this.handleCloseModal} />   
         )
 
         return (
             <React.Fragment>
-                <span className='person-detail__button' onClick={this.handleOpenModal}>
+                <span className='footer__modal-trigger' onClick={this.handleOpenModal}>
                     <i className="fas fa-user"></i>
                 </span>
 

@@ -6,13 +6,13 @@ const useErrorSuccess = () => {
 
     const ErrorMessage = () => {
         return !errorMessage ? null : (
-            <p className='error-message' style={{color: 'red' }}>{errorMessage}</p>
+            <p className='error-message'>{errorMessage}</p>
         )
     }
 
     const SuccessMessage = () => {
         return !successMessage ? null : (
-            <p className='success-message' style={{color: 'blue' }}>{successMessage}</p>
+            <p className='success-message' >{successMessage}</p>
         )
     }
 

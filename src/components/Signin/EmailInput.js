@@ -2,9 +2,9 @@ import React from 'react'
 
 const EmailInput = ({ email, setEmail}) => {
     return (
-        <div className='signin__form-group'>
+        <div className='auth__form-group'>
             <input 
-                className='signin__input'
+                className='auth__input'
                 type='email' 
                 name='email' 
                 value={email} 

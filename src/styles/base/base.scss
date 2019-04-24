@@ -1,5 +1,6 @@
 @import '../abstracts/variables.scss';
 @import '../abstracts/mixins.scss';
+@import './animation.scss';
 
 *,
 *::after,
@@ -13,7 +14,11 @@ html {
     // This defines what 1rem is (if default font-size = 16px, 1rem = 10px)
     font-size: 62.5%;
 
-    @include respond(phone) {
+    @include respond(tab-land) {
+        font-size: 55%;
+    }
+
+    @include respond(tab-port) {
         font-size: 50%;
     }
 }
@@ -55,4 +60,14 @@ select {
 }
 select::-ms-expand {
     display: none;
+}
+
+.error-message {
+    color: red;
+}
+
+.success-message {
+    color: transparent;
+    background: $gradient-dark;
+    background-clip: text;
 }
