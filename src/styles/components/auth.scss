@@ -117,13 +117,19 @@
     }
 
     &__link {
+        // reset
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        appearance: none;
+
         align-self: flex-end;
         display: block;
         padding: 1rem;
         color: $color-grey-light-4;
-        border: none;
         font-size: $default-font-size;
-        cursor: pointer;
+
 
         &:hover {
             color: $color-grey-dark-3;
