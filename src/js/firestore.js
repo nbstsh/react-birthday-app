@@ -19,13 +19,16 @@ const uploadAllPeopleToFirestore = async () => {
     const batch = firebase.firestore().batch()    
     people.forEach(person => {
         const personRef = firebase.firestore().collection('people').doc(person.id)
-        const authId = user.uid
-        const { id, month, date, name, memos, createdAt, updatedAt } = person
-        batch.set(personRef, { id, month, date, name, authId, createdAt, updatedAt })
+        const personCopy = { ...person }
+        attachAuthId(personCopy)
+        delete personCopy.memos
+        batch.set(personRef, personCopy)
 
-        if (!memos) return 
-        memos.forEach(memo => {
-            batch.set(personRef.collection('memos').doc(memo.id), memo)
+        if (!person.memos) return 
+        person.memos.forEach(memo => {
+            const memoCopy = { ...memo }
+            attachAuthId(memoCopy)
+            batch.set(personRef.collection('memos').doc(memo.id), memoCopy)
         })
     })
 
@@ -83,6 +86,27 @@ const deleteMemoInFirestore = async (personId, memo) => {
     await memoRef.delete()
 }
 
+const deleteAllPeopleInFirestore = async () => {
+    try {
+        const people = await manager.loadPeople()
+        if (!people) throw new Error('Fail to load people data.')
+    
+        await Promise.all(people.map(person => deletePersonInFirestore(person)))
+
+    }
+    catch (e) {
+        await addErrorLog({ 
+            authId: firebase.auth().currentUser.uid,
+            errorMessage: e.message
+        })
+    }
+}
+
+const addErrorLog = async (log) => {
+    const logsRef = firebase.firestore().collection('logs')
+    logsRef.add(log)
+}
+
 export { 
     uploadAllPeopleToFirestore,
     createPersonInFirestore, 
@@ -91,5 +115,6 @@ export {
     createMemoInFirestore,
     updateMemoInFirestore,
     deleteMemoInFirestore,
-    syncDataFromFirestore
+    syncDataFromFirestore,
+    deleteAllPeopleInFirestore
 }

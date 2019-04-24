@@ -3,6 +3,7 @@ import fireabse from 'firebase/app'
 import useErrorSuccess from '../common/useErrorSuccess'
 import useEmailPassword from '../common/useEmailPassword'
 import useLoader from '../common/useLoader'
+import { deleteAllPeopleInFirestore } from '../../js/firestore'
 
 const DeleteAccountForm = ({ handleAfterSubmit, closeDeleteForm }) => {
     const { setNeedLoader, loader } = useLoader()
@@ -19,6 +20,7 @@ const DeleteAccountForm = ({ handleAfterSubmit, closeDeleteForm }) => {
             await fireabse.auth().signInWithEmailAndPassword(email, password)
 
             if (window.confirm('Are you sure to Delete acount?')) {
+                await deleteAllPeopleInFirestore()
                 await fireabse.auth().currentUser.delete()
 
                 setSucessMessage('Successfully delete your account. We hope to see you again!')
