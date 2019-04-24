@@ -9,6 +9,12 @@ const attachAuthId = (data) => {
     data.authId = user.uid
 }
 
+const generateCopyWithAuthId = (obj = {}) => {
+    const copy = { ...obj }
+    attachAuthId(copy)
+    return copy
+}
+
 const uploadAllPeopleToFirestore = async () => {
     const people = await manager.loadPeople()
     if (!people) throw new Error('Fail to load people data.')
@@ -19,15 +25,13 @@ const uploadAllPeopleToFirestore = async () => {
     const batch = firebase.firestore().batch()    
     people.forEach(person => {
         const personRef = firebase.firestore().collection('people').doc(person.id)
-        const personCopy = { ...person }
-        attachAuthId(personCopy)
+        const personCopy = generateCopyWithAuthId(person)
         delete personCopy.memos
         batch.set(personRef, personCopy)
 
         if (!person.memos) return 
         person.memos.forEach(memo => {
-            const memoCopy = { ...memo }
-            attachAuthId(memoCopy)
+            const memoCopy = generateCopyWithAuthId(memo)
             batch.set(personRef.collection('memos').doc(memo.id), memoCopy)
         })
     })
@@ -39,24 +43,42 @@ const syncDataFromFirestore = async () => {
     const user = firebase.auth().currentUser
     if (!user) return 
 
-    const query = firebase.firestore().collection('people').where('authId', '==', user.uid)
-    const querySnapshot = await query.get()
-    querySnapshot.forEach(doc => {
-        console.log(doc.id, " => ", doc.data());
+    const people = await manager.loadPeople()
+
+    const peopleRef = firebase.firestore().collection('people')
+    const querySnapshot = await peopleRef.where('authId', '==', user.uid).get()
+    const savePromises = querySnapshot.docs.map(personDoc => {
+        const personToSave = personDoc.data()
+
+        return peopleRef.doc(personToSave.id).collection('memos').get()
+            .then(memoQuerySnapshot => {
+                // populate memos if necessary
+                if (memoQuerySnapshot.size > 0) {
+                    personToSave.memos = []
+                    memoQuerySnapshot.forEach(memoDoc => personToSave.memos.push(memoDoc.data()) )
+                }
+                // check if update is needed
+                const person = people.find(p => p.id === personToSave.id)
+                const needSave = !person || personToSave.updatedAt > person.updatedAt
+                return needSave ? manager.savePersonInIdb(personToSave.id, personToSave) : null
+            })
     })
+
+    await Promise.all(savePromises)
 }
 
 const createPersonInFirestore = async (person) => {
-    attachAuthId(person)
+    const personCopy = generateCopyWithAuthId(person)
+    delete personCopy.memos
     const personRef = firebase.firestore().collection('people').doc(person.id)
-    await personRef.set(person)
+    await personRef.set(personCopy)
 }
 
 const updatePersonInFirestore = async (person) => {
-    const personRef = firebase.firestore().collection('people').doc(person.id)
-    const personCopy = {...person}
+    const personCopy = generateCopyWithAuthId(person)
     delete personCopy.memos
-    await personRef.update(person)
+    const personRef = firebase.firestore().collection('people').doc(person.id)
+    await personRef.update(personCopy)
 }
  
 const deletePersonInFirestore = async (person) => {
@@ -65,20 +87,23 @@ const deletePersonInFirestore = async (person) => {
     const batch = db.batch()    
 
     batch.delete(personRef)
-    person.memos.forEach(({ id }) => batch.delete(personRef.collection('memos').doc(id)) )
+    if (person.memos) {
+        person.memos.forEach(({ id }) => batch.delete(personRef.collection('memos').doc(id)))
+    }
 
     await batch.commit()
 }
 
-const createMemoInFirestore = async (personId, memo) => {
-    attachAuthId(memo)
+const setMemoInFirestore = async (personId, memo) => {
+    const memoCopy = generateCopyWithAuthId(memo)
     const memoRef = firebase.firestore().collection('people').doc(personId).collection('memos').doc(memo.id)
-    await memoRef.set(memo)
+    await memoRef.set(memoCopy)
 }
 
 const updateMemoInFirestore = async (personId, memo) => {
+    const memoCopy = generateCopyWithAuthId(memo)
     const memoRef = firebase.firestore().collection('people').doc(personId).collection('memos').doc(memo.id)
-    await memoRef.update(memo)
+    await memoRef.update(memoCopy)
 }
 
 const deleteMemoInFirestore = async (personId, memo) => {
@@ -112,7 +137,7 @@ export {
     createPersonInFirestore, 
     updatePersonInFirestore, 
     deletePersonInFirestore,
-    createMemoInFirestore,
+    setMemoInFirestore,
     updateMemoInFirestore,
     deleteMemoInFirestore,
     syncDataFromFirestore,

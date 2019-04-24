@@ -3,8 +3,8 @@ import moment from 'moment'
 import createIdbKeyval from './idb-keyval'
 import EventEmitter from 'events'
 import { setFilters, getFilters } from './filters'
-import { createPersonInFirestore, updatePersonInFirestore, deletePersonInFirestore, 
-        createMemoInFirestore, updateMemoInFirestore, deleteMemoInFirestore } from './firestore'
+import { createPersonInFirestore, updatePersonInFirestore, 
+        deletePersonInFirestore, setMemoInFirestore, deleteMemoInFirestore } from './firestore'
 const idbKeyval = createIdbKeyval('people')
 
 
@@ -52,7 +52,7 @@ class PersonManager extends EventEmitter {
         }
 
         this.people.push(person)
-        await await idbKeyval.set(id, person)
+        await this.savePersonInIdb(id, person)
 
         this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
 
@@ -80,7 +80,7 @@ class PersonManager extends EventEmitter {
             await updatePersonInFirestore(person)
         }
 
-        await idbKeyval.set(person.id, person)
+        await this.savePersonInIdb(person.id, person)
 
         this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
@@ -91,8 +91,8 @@ class PersonManager extends EventEmitter {
             if (this.isSinedin) {
                 await deletePersonInFirestore(this.people[index])
             }
-            const personArray = this.people.splice(index, 1)
-            await idbKeyval.delete(personArray[0].id)
+            const personToDelete = this.people.splice(index, 1)[0]
+            await this.deletePersonInIdb(personToDelete.id)
 
             this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
         }
@@ -142,11 +142,17 @@ class PersonManager extends EventEmitter {
         }
 
         if (this.isSinedin) {
-            await createMemoInFirestore(person.id, memo)
+            await setMemoInFirestore(person.id, memo)
         }
 
-        person.memos.push(memo)
-        this.updatePerson(person)
+        if (person.memos) {
+            person.memos.push(memo)
+        } else {
+            person.memos = [memo]
+        }
+        
+        this.savePersonInIdb(person.id, person)
+        this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
     async updateMemo(personId, { id, content }) {
         const person = this.people.find(p => p.id === personId)
@@ -158,10 +164,11 @@ class PersonManager extends EventEmitter {
         memo.content = content 
 
         if (this.isSinedin) {
-            await updateMemoInFirestore(person.id, memo)
+            await setMemoInFirestore(person.id, memo)
         }
 
-        this.updatePerson(person)
+        this.savePersonInIdb(person.id, person)
+        this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
     async deleteMemo(personId, memoId) {
         const person = this.people.find(p => p.id === personId)
@@ -177,6 +184,12 @@ class PersonManager extends EventEmitter {
         person.memos.splice(index, 1)
         
         this.updatePerson(person)
+    }
+    async savePersonInIdb(id, person) {
+        await idbKeyval.set(id, person)
+    }
+    async deletePersonInIdb(id) {
+        await idbKeyval.delete(id)
     }
 }
 

@@ -48,7 +48,9 @@ const AuthForm = ({ handleAfterSubmit }) => {
                 uploadAllPeopleToFirestore()
             } else if (authType === 'signin') {
                 await firebase.auth().signInWithEmailAndPassword(email, password)
-                syncDataFromFirestore()
+                syncDataFromFirestore().then(() => {
+                    window.location.reload()
+                })
             }
 
             setSucessMessage(`Successfully ${text[authType]}!`)
