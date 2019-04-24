@@ -29,12 +29,14 @@ const Signout = ({ handleAfterSubmit, openDeleteForm }) => {
             <p className='auth__description'>You can access your data again if you sign in again after sign out.But once you click delete the account, your data stored in cloud is deleted completely.</p>
             <SuccessMessage />
             <ErrorMessage />
-            <button className='auth__button u-margin-bottom-sm' onClick={handleSignoutClick}>
-                    {loader || 'Sign out' }
-            </button>
-            <button className='auth__button' onClick={openDeleteForm}>
-                Delete Account
-            </button>
+            <div className='auth__form'>
+                <button className='auth__button u-margin-bottom-sm' onClick={handleSignoutClick}>
+                        {loader || 'Sign out' }
+                </button>
+                <button className='auth__button' onClick={openDeleteForm}>
+                    Delete Account
+                </button>
+            </div>
         </div>
     )
 }

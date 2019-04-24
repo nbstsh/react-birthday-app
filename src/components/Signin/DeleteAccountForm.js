@@ -4,7 +4,6 @@ import useErrorSuccess from '../common/useErrorSuccess'
 import useEmailPassword from '../common/useEmailPassword'
 import useLoader from '../common/useLoader'
 
-
 const DeleteAccountForm = ({ handleAfterSubmit, closeDeleteForm }) => {
     const { setNeedLoader, loader } = useLoader()
     const { email, password,  emailInput, passwordInput, validate } = useEmailPassword()

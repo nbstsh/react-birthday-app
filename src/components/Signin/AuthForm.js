@@ -7,6 +7,7 @@ import SigninDescription from './SigninDescription'
 import useEmailPassword from '../common/useEmailPassword'
 import useLoader from '../common/useLoader'
 import { uploadAllPeopleToFirestore, syncDataFromFirestore } from '../../js/firestore'
+import Return from './Return'
 
 const AuthForm = ({ handleAfterSubmit }) => {
     const [authType, setAuthType] = useState('signin')
@@ -27,7 +28,7 @@ const AuthForm = ({ handleAfterSubmit }) => {
         signin: 'Need sign up?',
         signup: 'Need sign in?'
     }
-    
+
     const handleSuccess = () => {
         resetEmailAndPassword()
         resetErrorAndSuccessMessages()
@@ -84,6 +85,8 @@ const AuthForm = ({ handleAfterSubmit }) => {
                     {link[authType]}
                 </button>
             </form>
+
+            <Return text={`Close ${text[authType]} form`} handleReturnClick={handleAfterSubmit}/>
         </div>
     )
 }
