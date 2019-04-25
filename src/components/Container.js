@@ -5,6 +5,8 @@ import Body from './Body'
 import Footer from './Footer'
 import PersonDetail from './person-detail/PersonDetail'
 import  manager from '../js/person-manager'
+import firebase from 'firebase/app'
+import { syncDataFromFirestore } from '../js/firestore'
 
 class Container extends Component {
     constructor(props) {
@@ -15,12 +17,21 @@ class Container extends Component {
             selectedPersonId: ''
         }
     }
-    async componentDidMount() {
-        const people = await manager.loadPeople()
-        this.setState({ people })
-
+    componentDidMount() {
+        this.loadAndSetPeople()
         manager.on(manager.UPDATE_IDB_EVENT, this.initPeople)
         manager.on(manager.UPDATE_FILTERS_EVENT, this.initPeopleAndHeaderTitle)
+
+        
+        firebase.auth().onAuthStateChanged(async user => {
+            if (!user)  return 
+            await syncDataFromFirestore()
+            this.loadAndSetPeople()
+        })
+    }
+    loadAndSetPeople = async () => {
+        const people = await manager.loadPeople()
+        this.setState({ people })
     }
     initPeople = ({ people }) => {
         this.setState({ people })

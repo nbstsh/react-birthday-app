@@ -17,7 +17,7 @@ class PersonDetail extends Component {
     }
     openMemoForm = () => {
         this.setState({ needShowMemoForm: true })
-        setTimeout(this.focusMemoForm, 150)
+        setTimeout(this.focusMemoForm, 500)
     }
     closeMemoForm = () => {
         this.setState({ needShowMemoForm: false })
