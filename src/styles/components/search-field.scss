@@ -48,6 +48,8 @@
         transform: rotate(45deg);
         background-image: $gradient-light;
         border: none;
+        color: $color-grey-dark-2;
+
 
         @include respond(phone-small) {
             width: 2.5rem;

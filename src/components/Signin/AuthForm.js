@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../styles/components/auth.scss'
 import useErrorSuccess from '../common/useErrorSuccess'
 import firebase from 'firebase/app'
@@ -9,11 +9,18 @@ import useLoader from '../common/useLoader'
 import { uploadAllPeopleToFirestore, syncDataFromFirestore } from '../../js/firestore'
 import Return from './Return'
 
-const AuthForm = ({ handleAfterSubmit }) => {
+const AuthForm = ({ handleAfterSubmit, isFirstTime, setIsFirstTime }) => {
     const [authType, setAuthType] = useState('signin')
     const { setNeedLoader, loader} = useLoader()
     const { email, password,  emailInput, passwordInput, validate, resetEmailAndPassword } = useEmailPassword()
     const { setErrorMessage, setSucessMessage, ErrorMessage, SuccessMessage, resetErrorAndSuccessMessages } = useErrorSuccess()
+
+    useEffect(() => {
+        if (isFirstTime) {
+            setAuthType('signup')
+            setIsFirstTime(false)
+        } 
+    }, [])
 
     const text = { signup: 'Sign up', signin: 'Sign in'}
     const title = {

@@ -7,7 +7,7 @@ import MemoContainer from './MemoContainer';
 const MemoList = ({ memos, personId, needShowMemoForm, closeMemoForm }) => {
     return (
         <ul className='memo__list'>
-            {memos && memos.length === 0 && !needShowMemoForm &&
+            {(!memos || memos.length === 0) && !needShowMemoForm &&
                 <p className='memo__empty-message'>There is no memo to show. Create a new memo!</p>
             }
 

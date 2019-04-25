@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../../styles/components/search-field.scss'
 import manager from '../../js/person-manager'
+import { getFilters } from '../../js/filters'
 
 class SearchField extends Component {
     constructor(props) {
@@ -10,6 +11,9 @@ class SearchField extends Component {
             date: '',
             name: ''
         }
+    }
+    componentDidMount = () => {
+        this.setState(getFilters())
     }
     handleMonthChange = (e) => {
         const { value } = e.target

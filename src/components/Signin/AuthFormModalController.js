@@ -8,8 +8,20 @@ class AuthFormModalControll extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            showModal: false
+            showModal: false,
+            isFirstTime: false
         }
+    }
+    async componentDidMount() {
+        const isVisited = localStorage.getItem('isVisited')
+        if (isVisited)  return  
+
+        this.setState({ isFirstTime: true }) 
+        localStorage.setItem('isVisited', 'true')
+        this.handleOpenModal()
+    }
+    setIsFirstTime  = (isFirstTime) => {
+        this.setState({ isFirstTime })
     }
     handleOpenModal = () => {
         this.setState({ showModal: true })
@@ -21,7 +33,10 @@ class AuthFormModalControll extends Component {
         const content = firebase.auth().currentUser ? (
             <SignoutContainer closeModal={this.handleCloseModal} />
         ) : (
-            <AuthForm  handleAfterSubmit={this.handleCloseModal} />   
+            <AuthForm  
+                handleAfterSubmit={this.handleCloseModal}
+                isFirstTime={this.state.isFirstTime}
+                setIsFirstTime={this.setIsFirstTime} />   
         )
 
         return (

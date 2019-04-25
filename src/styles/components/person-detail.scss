@@ -25,6 +25,7 @@
 
         display: grid;
         grid-template-columns: 2fr 3fr; 
+        grid-template-rows: $calendar-date-width;
         grid-row-gap: 5rem;
 
         overflow-y: scroll;
@@ -36,6 +37,11 @@
 
         @include respond(phone) {
             height: 70vh;
+        }
+        
+        @include respond(phone-small) {
+            // for birthday description placed in second row
+            grid-template-rows: $calendar-date-width min-content;
         }
 
         & .calendar-date {
@@ -59,6 +65,7 @@
 
         color: $color-grey-dark-2;
         text-transform: uppercase;
+        height: $calendar-date-width;
 
         @include respond(phone-small) {
             grid-column: 1 / -1;
