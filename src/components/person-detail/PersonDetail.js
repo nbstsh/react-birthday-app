@@ -38,8 +38,10 @@ class PersonDetail extends Component {
                     needShowMemoForm={this.state.needShowMemoForm}
                     openMemoForm={this.openMemoForm}
                     closeMemoForm={this.closeMemoForm}/>
-                <PersonDetailFooter 
-                    openMemoForm={this.openMemoForm} />
+                {!this.state.needShowMemoForm &&
+                    <PersonDetailFooter 
+                        openMemoForm={this.openMemoForm} />
+                }
             </div>
         ) 
     }
