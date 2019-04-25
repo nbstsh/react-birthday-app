@@ -12,13 +12,17 @@ class AuthFormModalControll extends Component {
             isFirstTime: false
         }
     }
-    async componentDidMount() {
-        const isVisited = localStorage.getItem('isVisited')
-        if (isVisited)  return  
-
-        this.setState({ isFirstTime: true }) 
-        localStorage.setItem('isVisited', 'true')
-        this.handleOpenModal()
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged(user => {
+            const isVisited = localStorage.getItem('isVisited')
+            if (!isVisited) {
+                localStorage.setItem('isVisited', 'true')
+    
+                if (user) return 
+                this.setState({ isFirstTime: true }) 
+                this.handleOpenModal()
+            }
+        })
     }
     setIsFirstTime  = (isFirstTime) => {
         this.setState({ isFirstTime })
