@@ -5,7 +5,9 @@ const Memo = ({ id, content, handleClick }) => {
 
     return (
         <div className='memo__item' onClick={handleClick}>
-            {content}
+            {content.split('\n').map((line, key) => (
+                <React.Fragment key={key}>{line}<br /></React.Fragment>
+            ))}
         </div>
     )
 }

@@ -150,7 +150,8 @@ class PersonManager extends EventEmitter {
         } else {
             person.memos = [memo]
         }
-        
+
+        person.updatedAt = moment().valueOf()
         this.savePersonInIdb(person.id, person)
         this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }
@@ -167,6 +168,7 @@ class PersonManager extends EventEmitter {
             await setMemoInFirestore(person.id, memo)
         }
 
+        person.updatedAt = moment().valueOf()
         this.savePersonInIdb(person.id, person)
         this.emit(this.UPDATE_IDB_EVENT, { people: this.getFilteredPeople() })
     }

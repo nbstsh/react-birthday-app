@@ -26,7 +26,7 @@ const Signout = ({ handleAfterSubmit, openDeleteForm }) => {
     return (
         <div className='auth'>
             <h2 className='auth__title'>Sign out? Delete your account?</h2>
-            <p className='auth__description'>You can access your data again if you sign in again after sign out.But once you click delete the account, your data stored in cloud is deleted completely.</p>
+            <p className='auth__description'>If you sign out, we stop storing your birthday data in cloud. And please be aware that your data stored in cloud is going to be removed completely once you delete your account.</p>
             <SuccessMessage />
             <ErrorMessage />
             <div className='auth__form'>
